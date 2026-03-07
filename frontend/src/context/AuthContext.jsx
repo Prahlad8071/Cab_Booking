@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { API_URL } from '../config';
 
 export const AuthContext = createContext();
 
@@ -11,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
     // Initialize socket connection
     const initSocket = (userData) => {
-        const newSocket = io('http://localhost:5000');
+        const newSocket = io(API_URL);
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
-        const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+        const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
         const userData = { ...res.data };
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (name, email, password, role, extraData) => {
         const payload = { name, email, password, role, ...extraData };
-        const res = await axios.post('http://localhost:5000/api/auth/register', payload);
+        const res = await axios.post(`${API_URL}/api/auth/register`, payload);
         const userData = { ...res.data };
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);

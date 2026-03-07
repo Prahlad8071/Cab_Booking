@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config';
 
 const UserDashboard = () => {
     const { user, socket } = useContext(AuthContext);
@@ -38,7 +39,7 @@ const UserDashboard = () => {
 
     const fetchNearbyDrivers = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/rides/nearby');
+            const res = await axios.get(`${API_URL}/api/rides/nearby`);
             setNearbyDrivers(res.data);
         } catch (err) {
             console.error('Failed to fetch nearby drivers', err);
@@ -56,7 +57,7 @@ const UserDashboard = () => {
                 fare: bookingDetails.fare,
                 extraOptions: { refreshments: false, donation: false }
             };
-            const res = await axios.post('http://localhost:5000/api/rides/book', payload);
+            const res = await axios.post(`${API_URL}/api/rides/book`, payload);
             setActiveRide(res.data);
         } catch (err) {
             setError(err.response?.data?.message || 'Booking failed');
@@ -66,7 +67,7 @@ const UserDashboard = () => {
 
     const handleCancel = async () => {
         try {
-            await axios.put(`http://localhost:5000/api/rides/${activeRide._id}/status`, { status: 'cancelled' });
+            await axios.put(`${API_URL}/api/rides/${activeRide._id}/status`, { status: 'cancelled' });
             setActiveRide(null);
         } catch (err) {
             console.error(err);
@@ -143,7 +144,7 @@ const UserDashboard = () => {
                         <h4 className="fw-bold mb-3 px-4">Map</h4>
                         <div className="bg-light text-center w-100 border-top border-bottom" style={{
                             height: '350px',
-                            backgroundImage: 'url(/map_placeholder.png)',
+                            backgroundImage: `url(${import.meta.env.BASE_URL}map_placeholder.png)`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center'
                         }}>

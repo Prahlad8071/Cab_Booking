@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config';
 
 const DriverDashboard = () => {
     const { user, socket } = useContext(AuthContext);
@@ -46,10 +47,10 @@ const DriverDashboard = () => {
 
     const fetchStatus = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/drivers/profile');
+            const res = await axios.get(`${API_URL}/api/drivers/profile`);
             setIsAvailable(res.data.isAvailable);
 
-            const ridesRes = await axios.get('http://localhost:5000/api/drivers/rides');
+            const ridesRes = await axios.get(`${API_URL}/api/drivers/rides`);
             const currentRide = ridesRes.data.find(r => ['accepted', 'in_progress'].includes(r.status));
             if (currentRide) setActiveRide(currentRide);
 
@@ -61,7 +62,7 @@ const DriverDashboard = () => {
 
     const handleAcceptViaSocket = async (rideId) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/rides/${rideId}/status`, { status: 'accepted' });
+            const res = await axios.put(`${API_URL}/api/rides/${rideId}/status`, { status: 'accepted' });
             setActiveRide(res.data);
             setIsAvailable(false);
         } catch (err) {
@@ -71,7 +72,7 @@ const DriverDashboard = () => {
 
     const toggleAvailability = async () => {
         try {
-            const res = await axios.put('http://localhost:5000/api/drivers/status', { isAvailable: !isAvailable });
+            const res = await axios.put(`${API_URL}/api/drivers/status`, { isAvailable: !isAvailable });
             setIsAvailable(res.data.isAvailable);
         } catch (err) {
             console.error(err);
@@ -90,7 +91,7 @@ const DriverDashboard = () => {
 
             if (!selectedRideId) return;
 
-            const res = await axios.put(`http://localhost:5000/api/rides/${selectedRideId}/status`, { status });
+            const res = await axios.put(`${API_URL}/api/rides/${selectedRideId}/status`, { status });
             if (status === 'completed') {
                 setActiveRide(null);
                 fetchStatus();
@@ -125,7 +126,7 @@ const DriverDashboard = () => {
                         <h4 className="fw-bold mb-3 px-4">Map</h4>
                         <div className="bg-light text-center w-100 border-top border-bottom" style={{
                             height: '250px',
-                            backgroundImage: 'url(/map_placeholder.png)',
+                            backgroundImage: `url(${import.meta.env.BASE_URL}map_placeholder.png)`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center'
                         }}>
