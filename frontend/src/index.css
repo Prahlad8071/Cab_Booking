@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Default Variables - Uber Aesthetic */
+:root {
+  --primary-color: #000000;
+  --primary-hover: #333333;
+  --secondary-color: #ffffff;
+  --secondary-hover: #f3f3f3;
+  --bg-color: #ffffff;
+  --bg-light: #f6f6f6;
+  --text-dark: #000000;
+  --text-light: #545454;
+  --border-color: #e2e2e2;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+
+  /* Adding the subtle map background at 50% visibility using linear-gradient to overlay on top of the map image */
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/bg_map.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-dark);
+}
+
+/* Base Cards (Removing Glassmorphism) */
+.glass-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  /* Squared off mostly or slight radius if preferred */
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* Very subtle shadow */
+}
+
+/* Custom Buttons - Pill Shaped */
+.btn-primary-custom {
+  background: var(--primary-color);
+  border: none;
+  color: var(--secondary-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+
+.btn-primary-custom:hover {
+  background: var(--primary-hover);
+  color: var(--secondary-color);
+  transform: none;
+  /* Removed scale */
+  box-shadow: none;
+}
+
+.btn-outline-custom {
+  background: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-custom:hover {
+  background: var(--secondary-hover);
+  color: var(--text-dark);
+}
+
+/* Form Inputs */
+.form-control-custom {
+  border-radius: 0;
+  /* Square inputs like Uber */
+  border: none;
+  border-bottom: 2px solid var(--border-color);
+  padding: 0.75rem 0;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.form-control-custom:focus {
+  border-bottom-color: var(--primary-color);
+  box-shadow: none;
+  outline: none;
+}
+
+/* Custom placeholder */
+.form-control-custom::placeholder {
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* Navbar */
+.navbar-custom {
+  background: var(--primary-color) !important;
+  border-bottom: none;
+}
+
+/* Typography Helpers (similar to Uber Move) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Dashboard Cards */
+.stat-card {
+  border-radius: 0.5rem;
+  /* Slight curve for internal cards */
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  transition: all 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
