@@ -12,7 +12,7 @@ import AdminDashboard from './pages/AdminDashboard';
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/Cab_Booking">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />

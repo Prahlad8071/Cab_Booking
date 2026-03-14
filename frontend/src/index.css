@@ -1,164 +1,449 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* Default Variables - Uber Aesthetic */
+/* ============================================================
+   UCAB — Gradient Modern Design System (Option 2)
+   ============================================================ */
+
 :root {
-  --primary-color: #000000;
-  --primary-hover: #333333;
-  --secondary-color: #ffffff;
-  --secondary-hover: #f3f3f3;
-  --bg-color: #ffffff;
-  --bg-light: #f6f6f6;
-  --text-dark: #000000;
-  --text-light: #545454;
-  --border-color: #e2e2e2;
+  /* Brand Gradient */
+  --grad-start: #6c63ff;
+  --grad-end: #3b82f6;
+  --gradient: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  --gradient-soft: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(59,130,246,0.12));
+
+  /* Surfaces */
+  --bg: #f4f5fb;
+  --surface: #ffffff;
+  --surface-2: #f8f9ff;
+
+  /* Text */
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --text-light: #9ca3af;
+
+  /* Accent */
+  --accent: #6c63ff;
+  --accent-hover: #5a52e0;
+  --accent-blue: #3b82f6;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+
+  /* Borders & Shadows */
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(108,99,255,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(108,99,255,0.16), 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-card: 0 2px 20px rgba(0,0,0,0.07);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
 }
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-color);
-
-  /* Adding the subtle map background at 50% visibility using linear-gradient to overlay on top of the map image */
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('./assets/bg_map.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: var(--text-dark);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-/* Base Cards (Removing Glassmorphism) */
-.glass-card {
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 0;
-  /* Squared off mostly or slight radius if preferred */
-  box-shadow: none;
-  transition: transform 0.3s ease;
-}
-
-.glass-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  /* Very subtle shadow */
-}
-
-/* Custom Buttons - Pill Shaped */
-.btn-primary-custom {
-  background: var(--primary-color);
-  border: none;
-  color: var(--secondary-color);
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: none;
-}
-
-.btn-primary-custom:hover {
-  background: var(--primary-hover);
-  color: var(--secondary-color);
-  transform: none;
-  /* Removed scale */
-  box-shadow: none;
-}
-
-.btn-outline-custom {
-  background: var(--secondary-color);
-  border: 1px solid var(--border-color);
-  color: var(--text-dark);
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.btn-outline-custom:hover {
-  background: var(--secondary-hover);
-  color: var(--text-dark);
-}
-
-/* Form Inputs */
-.form-control-custom {
-  border-radius: 0;
-  /* Square inputs like Uber */
-  border: none;
-  border-bottom: 2px solid var(--border-color);
-  padding: 0.75rem 0;
-  background: transparent;
-  transition: border-color 0.3s ease;
-}
-
-.form-control-custom:focus {
-  border-bottom-color: var(--primary-color);
-  box-shadow: none;
-  outline: none;
-}
-
-/* Custom placeholder */
-.form-control-custom::placeholder {
-  color: var(--text-light);
-  font-weight: 400;
-}
-
-/* Navbar */
-.navbar-custom {
-  background: var(--primary-color) !important;
-  border-bottom: none;
-}
-
-/* Typography Helpers (similar to Uber Move) */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
-  color: var(--text-dark);
-  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin-bottom: 0;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar-ucab {
+  background: var(--gradient) !important;
+  padding: 0.85rem 0;
+  box-shadow: 0 2px 16px rgba(108,99,255,0.25);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+.navbar-ucab .navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff !important;
+  letter-spacing: -1.5px;
 }
 
-.delay-100 {
-  animation-delay: 100ms;
+.navbar-ucab .nav-link {
+  color: rgba(255,255,255,0.88) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navbar-ucab .nav-link:hover { color: #fff !important; }
+
+.btn-nav-login {
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-nav-login:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.btn-nav-signup {
+  background: #fff;
+  color: var(--accent);
+  font-weight: 700;
+  border: none;
+  padding: 0.45rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-nav-signup:hover {
+  background: #f0eeff;
+  color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108,99,255,0.3);
 }
 
-.delay-200 {
-  animation-delay: 200ms;
-}
-
-.delay-300 {
-  animation-delay: 300ms;
-}
-
-/* Dashboard Cards */
-.stat-card {
-  border-radius: 0.5rem;
-  /* Slight curve for internal cards */
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
+.btn-nav-logout {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.35);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  cursor: pointer;
   transition: all 0.2s;
 }
+.btn-nav-logout:hover { background: rgba(255,255,255,0.3); }
 
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card-ucab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s, transform 0.25s;
 }
+.card-ucab:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-ucab-flat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   GRADIENT HEADER BAND
+   ============================================================ */
+.page-header-band {
+  background: var(--gradient);
+  padding: 2.5rem 0 4rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.page-header-band::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 60px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0 / 60px 60px 0 0;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn-ucab {
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  padding: 0.7rem 2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(108,99,255,0.35);
+  letter-spacing: 0.01em;
+}
+.btn-ucab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108,99,255,0.45);
+  color: #fff;
+}
+.btn-ucab:active { transform: translateY(0); }
+
+.btn-ucab-outline {
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-ucab-outline:hover {
+  background: var(--gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+.btn-ucab-light {
+  background: var(--gradient-soft);
+  color: var(--accent);
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ucab-light:hover { background: rgba(108,99,255,0.18); color: var(--accent); }
+
+.btn-ucab-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(16,185,129,0.35);
+}
+.btn-ucab-success:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(16,185,129,0.45); }
+
+.btn-ucab-danger {
+  background: transparent;
+  color: var(--danger);
+  font-weight: 700;
+  border: 2px solid var(--danger);
+  border-radius: 50px;
+  padding: 0.55rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ucab-danger:hover { background: var(--danger); color: #fff; }
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+.input-ucab {
+  width: 100%;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.input-ucab:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(108,99,255,0.12);
+  background: #fff;
+}
+.input-ucab::placeholder { color: var(--text-light); }
+
+.input-ucab-icon {
+  position: relative;
+}
+.input-ucab-icon .input-ucab { padding-left: 2.8rem; }
+.input-ucab-icon .icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.select-ucab {
+  width: 100%;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+.select-ucab:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(108,99,255,0.12); }
+
+/* ============================================================
+   BADGE / STATUS PILLS
+   ============================================================ */
+.badge-ucab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.badge-success { background: rgba(16,185,129,0.12); color: #059669; }
+.badge-danger  { background: rgba(239,68,68,0.12);  color: #dc2626; }
+.badge-purple  { background: rgba(108,99,255,0.12); color: var(--accent); }
+.badge-blue    { background: rgba(59,130,246,0.12);  color: #2563eb; }
+.badge-warning { background: rgba(245,158,11,0.12);  color: #d97706; }
+
+/* ============================================================
+   RIDE TYPE SELECTOR (User Dashboard)
+   ============================================================ */
+.ride-type-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+.ride-type-card:hover {
+  border-color: var(--accent);
+  background: var(--gradient-soft);
+  transform: translateY(-2px);
+}
+.ride-type-card.active {
+  border-color: var(--accent);
+  background: var(--gradient-soft);
+  box-shadow: 0 4px 12px rgba(108,99,255,0.18);
+}
+.ride-type-icon { font-size: 1.8rem; margin-bottom: 0.25rem; }
+.ride-type-name { font-size: 0.78rem; font-weight: 700; color: var(--text-primary); }
+.ride-type-price { font-size: 0.85rem; font-weight: 800; color: var(--accent); }
+
+/* ============================================================
+   STAT CARDS (Dashboards)
+   ============================================================ */
+.stat-pill {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.gradient-pill {
+  background: var(--gradient);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  color: #fff;
+}
+
+/* ============================================================
+   SECTION LABELS
+   ============================================================ */
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.divider-ucab {
+  height: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up { animation: fadeUp 0.45s ease-out both; }
+.animate-scale-in { animation: scaleIn 0.35s ease-out both; }
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ============================================================
+   AVAILABILITY TOGGLE (Driver)
+   ============================================================ */
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.availability-badge.online  { background: rgba(16,185,129,0.12); color: #059669; }
+.availability-badge.offline { background: rgba(239,68,68,0.12);  color: #dc2626; }
+.availability-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.availability-dot.online  { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.25); }
+.availability-dot.offline { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.25); }

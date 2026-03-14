@@ -11,52 +11,54 @@ const Navbar = () => {
         navigate('/login');
     };
 
+    const dashboardPath =
+        user?.role === 'driver' ? '/driver/dashboard' :
+        user?.role === 'admin'  ? '/admin/dashboard'  : '/user/dashboard';
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top py-3">
-            <div className="container">
-                <Link className="navbar-brand fw-bold fs-3" to="/" style={{ color: 'var(--secondary-color)', letterSpacing: '-1px' }}>
+        <nav className="navbar-ucab" style={{ padding: '0' }}>
+            <div className="container d-flex align-items-center" style={{ padding: '0.85rem 1rem' }}>
+                {/* Brand */}
+                <Link className="navbar-brand text-white text-decoration-none fw-bold" to="/"
+                    style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-1.5px', fontFamily: 'Plus Jakarta Sans' }}>
                     Ucab
                 </Link>
-                <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    {/* Main Nav Links aligned left (optional, currently pushing everything right) */}
-                    <ul className="navbar-nav me-auto ps-4 d-none d-lg-flex">
-                        <li className="nav-item">
-                            <Link className="nav-link fw-bold text-white" to="/">Ride</Link>
-                        </li>
-                    </ul>
 
-                    <ul className="navbar-nav ms-auto align-items-center">
-                        {!user ? (
-                            <>
-                                <li className="nav-item mx-2">
-                                    <Link className="nav-link text-white fw-medium" to="/login">Log in</Link>
-                                </li>
-                                <li className="nav-item ms-2">
-                                    <Link className="btn btn-light rounded-pill px-4 fw-bold text-dark" style={{ padding: '0.5rem 1rem' }} to="/register">Sign up</Link>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                {user.role === 'user' && (
-                                    <li className="nav-item mx-2"><Link className="nav-link text-white fw-medium" to="/user/dashboard">Dashboard</Link></li>
-                                )}
-                                {user.role === 'driver' && (
-                                    <li className="nav-item mx-2"><Link className="nav-link text-white fw-medium" to="/driver/dashboard">Dashboard</Link></li>
-                                )}
-                                {user.role === 'admin' && (
-                                    <li className="nav-item mx-2"><Link className="nav-link text-white fw-medium" to="/admin/dashboard">Admin Panel</Link></li>
-                                )}
-                                <li className="nav-item ms-3">
-                                    <button className="btn btn-light rounded-pill px-4 fw-bold text-dark" style={{ padding: '0.4rem 1rem' }} onClick={handleLogout}>
-                                        Log out ({user.name.split(' ')[0]})
-                                    </button>
-                                </li>
-                            </>
-                        )}
-                    </ul>
+                {/* Center links (desktop) */}
+                <div className="d-none d-lg-flex ms-4 gap-3">
+                    {user && (
+                        <Link to={dashboardPath}
+                            className="text-decoration-none btn-nav-login"
+                            style={{ color: 'rgba(255,255,255,0.88)', fontWeight: 500 }}>
+                            Dashboard
+                        </Link>
+                    )}
+                    {!user && (
+                        <Link to="/" className="text-decoration-none btn-nav-login"
+                            style={{ color: 'rgba(255,255,255,0.88)', fontWeight: 500 }}>
+                            Ride
+                        </Link>
+                    )}
+                </div>
+
+                {/* Right: Auth buttons */}
+                <div className="ms-auto d-flex align-items-center gap-2">
+                    {!user ? (
+                        <>
+                            <Link to="/login" className="btn-nav-login">Log in</Link>
+                            <Link to="/register" className="btn-nav-signup">Sign up</Link>
+                        </>
+                    ) : (
+                        <>
+                            <span className="d-none d-md-inline"
+                                style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.85rem', fontWeight: 500 }}>
+                                Hi, {user.name.split(' ')[0]} 👋
+                            </span>
+                            <button onClick={handleLogout} className="btn-nav-logout">
+                                Log out
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>
