@@ -4,5 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/Cab_Booking/',
+  // Use root base if deployed on Vercel or Render, else use GitHub Pages base
+  base: (process.env.VERCEL || process.env.RENDER) ? '/' : '/Cab_Booking/',
 })
