@@ -11,6 +11,7 @@ const DriverDashboard = () => {
     const [activeRide, setActiveRide] = useState(null);
     const [loading, setLoading] = useState(true);
     const [driverCoords, setDriverCoords] = useState(null);
+    const [otpInput, setOtpInput] = useState('');
 
     useEffect(() => {
         getCurrentLocation().then(c => { if (c) setDriverCoords(c); });
@@ -60,13 +61,27 @@ const DriverDashboard = () => {
         try {
             let id = activeRide?._id;
             if (!activeRide && status === 'accepted') {
-                id = prompt('Enter Ride ID (mock):');
-                if (!id) return;
+                const pend = await axios.get(`${API_URL}/api/rides/pending`);
+                if (pend.data.length === 0) {
+                    alert('No pending rides available right now.');
+                    return;
+                }
+                id = pend.data[0]._id;
             }
             if (!id) return;
-            const r = await axios.put(`${API_URL}/api/rides/${id}/status`, { status });
-            if (status === 'completed') { setActiveRide(null); fetchStatus(); }
-            else setActiveRide(r.data);
+
+            const payload = { status };
+            if (status === 'in_progress') {
+                if (otpInput.length !== 4) {
+                    alert('Please enter a 4-digit OTP');
+                    return;
+                }
+                payload.otp = otpInput;
+            }
+
+            const r = await axios.put(`${API_URL}/api/rides/${id}/status`, payload);
+            if (status === 'completed') { setActiveRide(null); fetchStatus(); setOtpInput(''); }
+            else { setActiveRide(r.data); setOtpInput(''); }
         } catch (e) { alert(e.response?.data?.message || 'Action failed'); }
     };
 
@@ -202,15 +217,31 @@ const DriverDashboard = () => {
                                     </div>
 
                                     {/* Action buttons */}
-                                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', flexDirection: 'column' }}>
                                         {activeRide.status === 'accepted' && (
-                                            <button className="btn-ucab" onClick={() => handleUpdateRide('in_progress')}
-                                                style={{ borderRadius: '12px', padding: '0.75rem 1.5rem' }}>
-                                                🚗 Start Ride
-                                            </button>
+                                            <div style={{ background: 'rgba(59,130,246,0.1)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(59,130,246,0.2)' }}>
+                                                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                                                    Ask passenger for 4-digit PIN to start ride:
+                                                </div>
+                                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    <input type="text" maxLength="4" placeholder="1234" value={otpInput}
+                                                        onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+                                                        style={{ 
+                                                            flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)',
+                                                            fontSize: '1.25rem', fontWeight: 800, textAlign: 'center', letterSpacing: '0.2em'
+                                                        }} 
+                                                    />
+                                                    <button className="btn-ucab" onClick={() => handleUpdateRide('in_progress')}
+                                                        disabled={otpInput.length !== 4}
+                                                        style={{ borderRadius: '8px', padding: '0.75rem 1.5rem', whiteSpace: 'nowrap' }}>
+                                                        🚗 Start Ride
+                                                    </button>
+                                                </div>
+                                            </div>
                                         )}
                                         {activeRide.status === 'in_progress' && (
-                                            <button className="btn-ucab-success" onClick={() => handleUpdateRide('completed')}>
+                                            <button className="btn-ucab-success w-100" onClick={() => handleUpdateRide('completed')}
+                                                style={{ padding: '1rem', fontSize: '1.1rem' }}>
                                                 🏁 Complete Ride
                                             </button>
                                         )}
@@ -225,7 +256,7 @@ const DriverDashboard = () => {
                                     </p>
                                     {isAvailable && (
                                         <button className="btn-ucab-outline" onClick={() => handleUpdateRide('accepted')}>
-                                            Simulate Accepting a Ride
+                                            Find Pending Ride
                                         </button>
                                     )}
                                     {!isAvailable && (

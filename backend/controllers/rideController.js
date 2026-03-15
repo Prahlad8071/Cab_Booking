@@ -14,6 +14,18 @@ const getNearbyDrivers = async (req, res) => {
     }
 };
 
+// @desc    Get all pending rides
+// @route   GET /api/rides/pending
+// @access  Private
+const getPendingRides = async (req, res) => {
+    try {
+        const rides = await Ride.find({ status: 'pending' }).sort({ createdAt: -1 });
+        res.json(rides);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // @desc    Create a new ride (book)
 // @route   POST /api/rides/book
 // @access  Private
@@ -25,12 +37,15 @@ const bookRide = async (req, res) => {
             return res.status(400).json({ message: 'Please provide all required fields' });
         }
 
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
         const ride = await Ride.create({
             userId: req.user.id,
             pickupLocation,
             dropoffLocation,
             fare,
-            extraOptions
+            extraOptions,
+            otp
         });
 
         res.status(201).json(ride);
@@ -56,6 +71,8 @@ const updateRideStatus = async (req, res) => {
             return res.status(404).json({ message: 'Ride not found' });
         }
 
+        const { otp } = req.body;
+
         // Only allow status changes if the user is a driver or admin, or if cancelling as user
         if (req.user.role === 'driver') {
             if (status === 'accepted') {
@@ -63,6 +80,11 @@ const updateRideStatus = async (req, res) => {
 
                 // Set driver as unavailable when they accept a ride
                 await Driver.findByIdAndUpdate(req.user.id, { isAvailable: false });
+            }
+            if (status === 'in_progress') {
+                if (!otp || otp !== ride.otp) {
+                    return res.status(400).json({ message: 'Invalid OTP. Ask the passenger for their 4-digit PIN.' });
+                }
             }
             if (status === 'completed') {
                 ride.completedAt = Date.now();
@@ -111,6 +133,7 @@ const getRideById = async (req, res) => {
 
 module.exports = {
     getNearbyDrivers,
+    getPendingRides,
     bookRide,
     updateRideStatus,
     getRideById

@@ -258,7 +258,17 @@ const UserDashboard = () => {
 
                                 <div style={{ background: 'var(--gradient)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1.25rem', color: '#fff' }}>
                                     <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '0.25rem' }}>Status</div>
-                                    <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>{activeRide.status.toUpperCase()}</div>
+                                    <div style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>{activeRide.status.toUpperCase()}</div>
+                                    
+                                    {/* OTP Display for Rider */}
+                                    {(activeRide.status === 'pending' || activeRide.status === 'accepted') && activeRide.otp && (
+                                        <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.75rem', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.5)', marginTop: '0.5rem' }}>
+                                            <div style={{ fontSize: '0.75rem', opacity: 0.9, marginBottom: '0.25rem' }}>Share this PIN with your driver:</div>
+                                            <div style={{ fontSize: '1.75rem', fontWeight: 900, letterSpacing: '0.2em', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                                                {activeRide.otp}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div style={{ background: 'var(--surface-2)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1rem' }}>

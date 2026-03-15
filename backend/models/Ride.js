@@ -23,6 +23,7 @@ const rideSchema = new mongoose.Schema({
         refreshments: { type: Boolean, default: false },
         donation: { type: Boolean, default: false }
     },
+    otp: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     completedAt: { type: Date }
 });
